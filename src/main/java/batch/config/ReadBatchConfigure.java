@@ -13,7 +13,6 @@ import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
-import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -73,11 +72,13 @@ public class ReadBatchConfigure {
                 .resource(new ClassPathResource("sample-data.csv")) //
                 .delimited() //
                 .names(new String[] { "name", "age" }) //
-                .fieldSetMapper(new BeanWrapperFieldSetMapper<PersonBo>() {
-                    {
-                        setTargetType(PersonBo.class); //
-                    }
-                }).build();
+                //                .fieldSetMapper(new BeanWrapperFieldSetMapper<PersonBo>() {
+                //                    {
+                //                        setTargetType(PersonBo.class);
+                //                    }
+                //                }) //
+                .targetType(PersonBo.class) //
+                .build();
 
         System.out.println(ToStringBuilder.reflectionToString(itemReader, ToStringStyle.MULTI_LINE_STYLE));
         return itemReader;
